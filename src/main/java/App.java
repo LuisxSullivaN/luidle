@@ -1,13 +1,12 @@
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import lexer.Lexer;
 
-public class App extends Application {
-    @Override
-    public void start(Stage stage) {
-        VBox box = new VBox();
-        stage.setScene(new Scene(box,500,500));
-        stage.show();
+public class App {
+    public static void main(String... args) {
+    	Lexer lexer = new Lexer();
+    	
+    	String input = "5               + 5;";
+    	
+    	for (String word : lexer.extractWords(input))
+    		System.out.println(word + " ");
     }
 }
