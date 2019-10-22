@@ -3,4 +3,12 @@ plugins {
   id 'eclipse'
 }
 
-mainClassName = "App"
+mainClassName = "com.sullivan.App"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.fxmisc.richtext:richtextfx:0.10.2'
+}

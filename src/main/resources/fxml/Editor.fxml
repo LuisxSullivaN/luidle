@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.VBox?>
+<?import org.fxmisc.richtext.CodeArea?>
+
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sullivan.editor.EditorController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Archivo">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#newFile" text="Nuevo">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Abrir">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Guardar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Guardar como...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeFile" text="Cerrar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#closeEditor" text="Salir">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edicion">
+            <items>
+              <MenuItem id="cut" mnemonicParsing="false" text="Cortar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem id="copy" mnemonicParsing="false" text="Copiar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem id="paste" mnemonicParsing="false" text="Pegar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Tabla">
+               <items>
+                  <Menu mnemonicParsing="false" text="Estatica">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Palabras reservadas" />
+                        <MenuItem mnemonicParsing="false" text="Caracteres especiales" />
+                        <Menu mnemonicParsing="false" text="Operadores">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Aritmeticos" />
+                              <MenuItem mnemonicParsing="false" text="Relacionales" />
+                              <MenuItem mnemonicParsing="false" text="Logicos" />
+                          </items>
+                        </Menu>
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Dinamica">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Simbolos" />
+                      <MenuItem mnemonicParsing="false" text="Identifcadores" />
+                        <Menu mnemonicParsing="false" text="Constantes numericas">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Enteras" />
+                              <MenuItem mnemonicParsing="false" text="Reales" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Constantes no numericas">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Caracteres" />
+                              <MenuItem mnemonicParsing="false" text="Cadena de caracteres" />
+                          </items>
+                        </Menu>
+                    </items>
+                  </Menu>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Analisis">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Lexico" />
+                  <MenuItem mnemonicParsing="false" text="Sintatico" />
+                  <MenuItem mnemonicParsing="false" text="Semantico" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Ayuda">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Acerca de" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <CodeArea fx:id="codeArea" visible="false" VBox.vgrow="ALWAYS" />
+      <TextArea fx:id="console" disable="true" editable="false" focusTraversable="false" />
+   </children>
+</VBox>
