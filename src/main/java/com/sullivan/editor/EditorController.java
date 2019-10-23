@@ -1,12 +1,21 @@
 package com.sullivan.editor;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.fxmisc.richtext.CodeArea;
 
+import com.sullivan.editor.table.DynamicTableController;
+import com.sullivan.lexer.Token;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -24,6 +33,8 @@ public class EditorController {
     private String code;
     private EditorModel model;
     private final String EDITOR_NAME = "Luidle";
+    
+    private List<Token> tokens = new ArrayList<>();
 
     @FXML
     private void initialize() {
@@ -132,5 +143,32 @@ public class EditorController {
     private void changeTitle(String title) {
     	Stage stage = (Stage)codeArea.getScene().getWindow();
     	stage.setTitle(title);
+    }
+    
+    @FXML
+    private void doLexicalAnalysis() {
+    	if (codeArea.isVisible()) {
+    		tokens = model.doLexicalAnalysis(code);
+    	}
+    }
+    
+    @FXML
+    private void showSymbolsTable() {
+    	
+    }
+    
+    private DynamicTableController loadSymbolsTable() {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DynamicTable.fxml"));
+    	try {
+    		Parent parent = loader.load();
+    		Stage stage = new Stage();
+    		stage.setTitle("Tabla de símbolos");
+    		stage.setScene(new Scene(parent));
+    		stage.initOwner(codeArea.getScene().getWindow());
+    		stage.show();
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	return (DynamicTableController)loader.getController();
     }
 }
