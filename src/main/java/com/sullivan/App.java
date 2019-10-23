@@ -15,4 +15,8 @@ public class App extends Application {
 		stage.setTitle("Luidle");
 		stage.show();
 	}
+	
+	public static void main(String... args) {
+		launch(args);
+	}
 }

@@ -1,6 +1,6 @@
 /*This file should be used as an input when running jflex to generate the desired lexer*/
 
-package lexer;
+package com.sullivan.lexer;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,13 +13,18 @@ import java.util.ArrayList;
 %type Token
 
 %{
-    private List<Token> tokens = new ArrayList<>();
-
-    public List<Token> getTokens() {
-        return tokens;
-    }
-
+	private List<Token> errors = new ArrayList<>();
+	
+	public List<Token> getErrors() {
+		return errors;
+	}
     private Token token(Category type) {
+    	if (type == Category.STRING || type == Category.CHARACTER) {
+    		return new Token(
+    			yytext().substring(1, yytext().length() - 1),
+    			yyline + 1,
+    			type);
+    	}
         return new Token(yytext(), yyline + 1, type);
     }
 %}
@@ -60,10 +65,11 @@ Character = \'[^\n\r\"]?\'
 "<="   {return token(Category.REL_OP);}
 ">"   {return token(Category.REL_OP);}
 ">="   {return token(Category.REL_OP);}
+"!="   {return token(Category.REL_OP);}
 
 "&&"   {return token(Category.LOG_OP);}
 "\|\|"   {return token(Category.LOG_OP);}
-"!="   {return token(Category.LOG_OP);}
+"!"   {return token(Category.LOG_OP);}
 
 "="   {return token(Category.SPECIAL_CHAR);}
 ";"   {return token(Category.SPECIAL_CHAR);}
@@ -81,7 +87,6 @@ Character = \'[^\n\r\"]?\'
 "&"   {return token(Category.SPECIAL_CHAR);}
 "\|"   {return token(Category.SPECIAL_CHAR);}
 "¡"   {return token(Category.SPECIAL_CHAR);}
-"!"   {return token(Category.SPECIAL_CHAR);}
 "¿"   {return token(Category.SPECIAL_CHAR);}
 "\?"   {return token(Category.SPECIAL_CHAR);}
 "\("   {return token(Category.SPECIAL_CHAR);}
@@ -97,4 +102,5 @@ Character = \'[^\n\r\"]?\'
 {String}    {return token(Category.STRING);}
 {Character}    {return token(Category.CHARACTER);}
 
-[^] {}
+\s	{ /* Ignore */ }
+[^] {errors.add(token(null));}

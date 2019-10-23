@@ -3,11 +3,11 @@ package com.sullivan.editor.table;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DynamicToken {
+public class TableToken {
 	private int id;
 	private List<Integer> lines = new ArrayList<>();
 	private String symbol;
-	private int category;
+	private int alias;
 	
 	public int getId() {
 		return id;
@@ -27,10 +27,10 @@ public class DynamicToken {
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
-	public int getCategory() {
-		return category;
+	public int getAlias() {
+		return alias;
 	}
-	public void setCategory(int category) {
-		this.category = category;
+	public void setAlias(int alias) {
+		this.alias = alias;
 	}
 }

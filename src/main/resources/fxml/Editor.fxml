@@ -85,18 +85,18 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Dinamica">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Simbolos" />
-                      <MenuItem mnemonicParsing="false" text="Identifcadores" />
+                      <MenuItem mnemonicParsing="false" onAction="#showSymbolsTable" text="Simbolos" />
+                      <MenuItem mnemonicParsing="false" onAction="#showIdentifiersTable" text="Identifcadores" />
                         <Menu mnemonicParsing="false" text="Constantes numericas">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Enteras" />
-                              <MenuItem mnemonicParsing="false" text="Reales" />
+                            <MenuItem mnemonicParsing="false" onAction="#showIntegersTable" text="Enteras" />
+                              <MenuItem mnemonicParsing="false" onAction="#showRealsTable" text="Reales" />
                           </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Constantes no numericas">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Caracteres" />
-                              <MenuItem mnemonicParsing="false" text="Cadena de caracteres" />
+                            <MenuItem mnemonicParsing="false" onAction="#showCharactersTable" text="Caracteres" />
+                              <MenuItem mnemonicParsing="false" onAction="#showStringsTable" text="Cadena de caracteres" />
                           </items>
                         </Menu>
                     </items>
@@ -105,7 +105,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Analisis">
               <items>
-                <MenuItem mnemonicParsing="false" text="Lexico" />
+                <MenuItem mnemonicParsing="false" onAction="#doLexicalAnalysis" text="Lexico" />
                   <MenuItem mnemonicParsing="false" text="Sintatico" />
                   <MenuItem mnemonicParsing="false" text="Semantico" />
               </items>
@@ -118,6 +118,6 @@
         </menus>
       </MenuBar>
       <CodeArea fx:id="codeArea" visible="false" VBox.vgrow="ALWAYS" />
-      <TextArea fx:id="console" disable="true" editable="false" focusTraversable="false" />
+      <TextArea fx:id="console" editable="false" focusTraversable="false" />
    </children>
 </VBox>

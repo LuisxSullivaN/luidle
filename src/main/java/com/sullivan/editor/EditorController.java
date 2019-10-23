@@ -1,17 +1,25 @@
 package com.sullivan.editor;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.fxmisc.richtext.CodeArea;
 
-import com.sullivan.editor.table.DynamicTableController;
+import com.sullivan.editor.table.LongSymbolTableController;
+import com.sullivan.editor.table.ShortSymbolTableController;
+import com.sullivan.editor.table.TableToken;
+import com.sullivan.lexer.Category;
+import com.sullivan.lexer.Lexer;
 import com.sullivan.lexer.Token;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
@@ -27,6 +36,8 @@ import javafx.stage.Stage;
 public class EditorController {
     @FXML
     private CodeArea codeArea;
+    @FXML
+    private TextArea console;
 
     private FileChooser fileChooser;
     private File file;
@@ -94,7 +105,9 @@ public class EditorController {
 
     private boolean lookForChanges() {
     	boolean keepGoing = true;
+    	//If text hasn't changed, there's no need to save and it just proceeds
     	if (!code.equals(codeArea.getText())) {
+    		//If Yes or No, the operation keeps going, if CANCEL, nothing is done
     		ButtonType response = askForSave();
     		if (response == ButtonType.YES)
     			saveFile();
@@ -148,17 +161,106 @@ public class EditorController {
     @FXML
     private void doLexicalAnalysis() {
     	if (codeArea.isVisible()) {
-    		tokens = model.doLexicalAnalysis(code);
+    		code = codeArea.getText();
+    		Lexer lexer = new Lexer(new BufferedReader(new StringReader(code)));
+    		tokens = model.retrieveTokens(lexer);
+    		console.clear();
+    		for (Token error : lexer.getErrors()) {
+    			console.appendText("Símbolo " + error.getLexeme()
+    					+ " desconocido en la línea " + error.getLine() + "\n");
+    		}
     	}
     }
     
     @FXML
     private void showSymbolsTable() {
-    	
+    	List<TableToken> tableTokens = model.toTableTokens(tokens);
+    	LongSymbolTableController controller = loadLongSymbolTable();
+    	controller.setTableTokens(tableTokens);
     }
     
-    private DynamicTableController loadSymbolsTable() {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DynamicTable.fxml"));
+    @FXML
+    private void showIdentifiersTable() {
+    	List<TableToken> tableTokens = model.toTableTokens(tokens);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de identificadores");
+    	int id = 1;
+    	for (TableToken tableToken : tableTokens) {
+    		if (tableToken.getAlias() == Category.IDENTIFIER.getAlias()) {
+    			tableToken.setId(id++);
+    			controller.getTableTokens().add(tableToken);
+    		}
+    	}
+    }
+
+    @FXML
+    private void showIntegersTable() {
+    	List<TableToken> tableTokens = model.toTableTokens(tokens);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de constantes numéricas");
+    	int id = 1;
+    	for (TableToken tableToken : tableTokens) {
+    		if (tableToken.getAlias() == Category.INTEGER.getAlias()) {
+    			tableToken.setId(id++);
+    			controller.getTableTokens().add(tableToken);
+    		}
+    	}
+    }
+
+    @FXML
+    private void showRealsTable() {
+    	List<TableToken> tableTokens = model.toTableTokens(tokens);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de constantes reales");
+    	int id = 1;
+    	for (TableToken tableToken : tableTokens) {
+    		if (tableToken.getAlias() == Category.REAL.getAlias()) {
+    			tableToken.setId(id++);
+    			controller.getTableTokens().add(tableToken);
+    		}
+    	}
+    }
+
+    @FXML
+    private void showCharactersTable() {
+    	List<TableToken> tableTokens = model.toTableTokens(tokens);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de caracteres");
+    	int id = 1;
+    	for (TableToken tableToken : tableTokens) {
+    		if (tableToken.getAlias() == Category.CHARACTER.getAlias()) {
+    			tableToken.setId(id++);
+    			controller.getTableTokens().add(tableToken);
+    		}
+    	}
+    }
+    
+    @FXML
+    private void showStringsTable() {
+    	List<TableToken> tableTokens = model.toTableTokens(tokens);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de cadenas de caracteres");
+    	int id = 1;
+    	for (TableToken tableToken : tableTokens) {
+    		if (tableToken.getAlias() == Category.STRING.getAlias()) {
+    			tableToken.setId(id++);
+    			controller.getTableTokens().add(tableToken);
+    		}
+    	}
+    }
+
+    private ShortSymbolTableController loadShortSymbolTable(String title) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ShortSymbolTable.fxml"));
+    	try {
+    		Parent parent = loader.load();
+    		Stage stage = new Stage();
+    		stage.setTitle(title);
+    		stage.setScene(new Scene(parent));
+    		stage.initOwner(codeArea.getScene().getWindow());
+    		stage.show();
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	return (ShortSymbolTableController)loader.getController();
+    }
+
+    private LongSymbolTableController loadLongSymbolTable() {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LongSymbolTable.fxml"));
     	try {
     		Parent parent = loader.load();
     		Stage stage = new Stage();
@@ -169,6 +271,6 @@ public class EditorController {
     	} catch(IOException e) {
     		e.printStackTrace();
     	}
-    	return (DynamicTableController)loader.getController();
+    	return (LongSymbolTableController)loader.getController();
     }
 }
