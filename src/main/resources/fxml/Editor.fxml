@@ -72,13 +72,13 @@
                <items>
                   <Menu mnemonicParsing="false" text="Estatica">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Palabras reservadas" />
-                        <MenuItem mnemonicParsing="false" text="Caracteres especiales" />
+                      <MenuItem mnemonicParsing="false" onAction="#showKeywordsTable" text="Palabras reservadas" />
+                        <MenuItem mnemonicParsing="false" onAction="#showSpecialCharsTable" text="Caracteres especiales" />
                         <Menu mnemonicParsing="false" text="Operadores">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Aritmeticos" />
-                              <MenuItem mnemonicParsing="false" text="Relacionales" />
-                              <MenuItem mnemonicParsing="false" text="Logicos" />
+                            <MenuItem mnemonicParsing="false" onAction="#showAritOpTable" text="Aritmeticos" />
+                              <MenuItem mnemonicParsing="false" onAction="#showRelOpTable" text="Relacionales" />
+                              <MenuItem mnemonicParsing="false" onAction="#showLogOpTable" text="Logicos" />
                           </items>
                         </Menu>
                     </items>

@@ -9,10 +9,24 @@ import java.util.List;
 import java.util.Map;
 
 import com.sullivan.editor.table.TableToken;
+import com.sullivan.lexer.Category;
 import com.sullivan.lexer.Lexer;
 import com.sullivan.lexer.Token;
 
 public class EditorModel {
+
+    private String[] keywords = {
+    		"Int","String","Char","Bool","Float","readln","print","if","elseif","endif",
+    		"for","endfor","main","void","endf"};
+    private String[] specialChars = {
+    	"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W",
+    	"X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u",
+    	"v","w","x","y","z","\"","(",")","{","}","[","]","\\","¬","$",";",":",".","¡","¿","?","\'","|",
+    	"="," "};
+    private String[] aritOp = {"+","-","/","*","%"};
+    private String[] relOp = {"==","!=",">=","<=",">","<"};
+    private String[] logOp = {"&&","||","!"};
+
 	public void writeToFile(File file, String text) {
 		try {
 			Files.write(file.toPath(), text.getBytes());
@@ -70,4 +84,30 @@ public class EditorModel {
 		return tableTokens;
 	}
 	
+	public List<TableToken> staticTokens(Category category) {
+		List<TableToken> tableTokens = new ArrayList<>();
+		String[] elements = new String[0];
+		switch (category) {
+		case ARIT_OP: elements = aritOp;
+			break;
+		case KEYWORD: elements = keywords;
+			break;
+		case LOG_OP: elements = logOp;
+			break;
+		case REL_OP: elements = relOp;
+			break;
+		case SPECIAL_CHAR: elements = specialChars;
+			break;
+		default:
+			break;
+		}
+    	for (int i = 0; i < elements.length; i++) {
+    		TableToken tableToken = new TableToken();
+    		tableToken.setId(i + 1);
+    		tableToken.setSymbol(elements[i]);
+    		tableToken.setAlias(category.getAlias());
+    		tableTokens.add(tableToken);
+    	}
+    	return tableTokens;
+	}
 }

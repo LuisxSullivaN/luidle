@@ -74,6 +74,8 @@ Character = \'[^\n\r\"]?\'
 "="   {return token(Category.SPECIAL_CHAR);}
 ";"   {return token(Category.SPECIAL_CHAR);}
 ","   {return token(Category.SPECIAL_CHAR);}
+"¬"   {return token(Category.SPECIAL_CHAR);}
+\\   {return token(Category.SPECIAL_CHAR);}
 "\."   {return token(Category.SPECIAL_CHAR);}
 "\$"   {return token(Category.SPECIAL_CHAR);}
 "_"   {return token(Category.SPECIAL_CHAR);}

@@ -42,11 +42,12 @@ public class Lexer {
     "\1\44\1\36\1\42\1\7\1\43\1\43\1\36\1\35\1\43\1\35"+
     "\1\3\1\36\12\2\1\43\1\43\1\40\1\37\1\40\1\43\1\43"+
     "\1\4\1\22\1\17\2\4\1\25\2\4\1\10\11\4\1\13\7\4"+
-    "\1\43\1\0\1\43\1\43\1\44\1\0\1\21\2\4\1\27\1\26"+
+    "\1\43\1\43\1\43\1\43\1\44\1\0\1\21\2\4\1\27\1\26"+
     "\1\31\1\16\1\20\1\15\2\4\1\24\1\33\1\11\1\23\1\30"+
     "\1\4\1\14\1\32\1\12\1\4\1\34\4\4\1\43\1\1\1\43"+
-    "\7\0\1\45\32\0\1\45\1\43\35\0\1\43\u15c0\0\1\45\u097f\0"+
-    "\13\45\35\0\2\45\5\0\1\45\57\0\1\45\u0fa0\0\1\45\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\ud00f\0";
+    "\7\0\1\45\32\0\1\45\1\43\12\0\1\43\22\0\1\43\u15c0\0"+
+    "\1\45\u097f\0\13\45\35\0\2\45\5\0\1\45\57\0\1\45\u0fa0\0"+
+    "\1\45\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\ud00f\0";
 
   /** 
    * Translates characters to character classes
@@ -334,7 +335,7 @@ public class Lexer {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 212) {
+    while (i < 216) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);

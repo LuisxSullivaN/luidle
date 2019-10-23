@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -242,6 +243,41 @@ public class EditorController {
     			controller.getTableTokens().add(tableToken);
     		}
     	}
+    }
+    
+    @FXML
+    private void showKeywordsTable() {
+    	List<TableToken> tableTokens = model.staticTokens(Category.KEYWORD);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tablde de palabras reservadas");
+    	controller.setTableTokens(tableTokens);
+    }
+
+    @FXML
+    private void showSpecialCharsTable() {
+    	List<TableToken> tableTokens = model.staticTokens(Category.SPECIAL_CHAR);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tablde de caracteres especiales");
+    	controller.setTableTokens(tableTokens);
+    }
+
+    @FXML
+    private void showAritOpTable() {
+    	List<TableToken> tableTokens = model.staticTokens(Category.ARIT_OP);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tablde de operadores aritméticos");
+    	controller.setTableTokens(tableTokens);
+    }
+
+    @FXML
+    private void showRelOpTable() {
+    	List<TableToken> tableTokens = model.staticTokens(Category.REL_OP);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tablde de operadores relacionales");
+    	controller.setTableTokens(tableTokens);
+    }
+
+    @FXML
+    private void showLogOpTable() {
+    	List<TableToken> tableTokens = model.staticTokens(Category.LOG_OP);
+    	ShortSymbolTableController controller = loadShortSymbolTable("Tablde de operadores lógicos");
+    	controller.setTableTokens(tableTokens);
     }
 
     private ShortSymbolTableController loadShortSymbolTable(String title) {
