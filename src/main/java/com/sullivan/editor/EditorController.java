@@ -184,65 +184,35 @@ public class EditorController {
     private void showIdentifiersTable() {
     	List<TableToken> tableTokens = model.toTableTokens(tokens);
     	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de identificadores");
-    	int id = 1;
-    	for (TableToken tableToken : tableTokens) {
-    		if (tableToken.getAlias() == Category.IDENTIFIER.getAlias()) {
-    			tableToken.setId(id++);
-    			controller.getTableTokens().add(tableToken);
-    		}
-    	}
+    	controller.setTableTokens(model.filterTableTokens(tableTokens, Category.IDENTIFIER));
     }
 
     @FXML
     private void showIntegersTable() {
     	List<TableToken> tableTokens = model.toTableTokens(tokens);
     	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de constantes numéricas");
-    	int id = 1;
-    	for (TableToken tableToken : tableTokens) {
-    		if (tableToken.getAlias() == Category.INTEGER.getAlias()) {
-    			tableToken.setId(id++);
-    			controller.getTableTokens().add(tableToken);
-    		}
-    	}
+    	controller.setTableTokens(model.filterTableTokens(tableTokens, Category.INTEGER));
     }
 
     @FXML
     private void showRealsTable() {
     	List<TableToken> tableTokens = model.toTableTokens(tokens);
     	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de constantes reales");
-    	int id = 1;
-    	for (TableToken tableToken : tableTokens) {
-    		if (tableToken.getAlias() == Category.REAL.getAlias()) {
-    			tableToken.setId(id++);
-    			controller.getTableTokens().add(tableToken);
-    		}
-    	}
+    	controller.setTableTokens(model.filterTableTokens(tableTokens, Category.REAL));
     }
 
     @FXML
     private void showCharactersTable() {
     	List<TableToken> tableTokens = model.toTableTokens(tokens);
     	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de caracteres");
-    	int id = 1;
-    	for (TableToken tableToken : tableTokens) {
-    		if (tableToken.getAlias() == Category.CHARACTER.getAlias()) {
-    			tableToken.setId(id++);
-    			controller.getTableTokens().add(tableToken);
-    		}
-    	}
+    	controller.setTableTokens(model.filterTableTokens(tableTokens, Category.CHARACTER));
     }
     
     @FXML
     private void showStringsTable() {
     	List<TableToken> tableTokens = model.toTableTokens(tokens);
     	ShortSymbolTableController controller = loadShortSymbolTable("Tabla de cadenas de caracteres");
-    	int id = 1;
-    	for (TableToken tableToken : tableTokens) {
-    		if (tableToken.getAlias() == Category.STRING.getAlias()) {
-    			tableToken.setId(id++);
-    			controller.getTableTokens().add(tableToken);
-    		}
-    	}
+    	controller.setTableTokens(model.filterTableTokens(tableTokens, Category.STRING));
     }
     
     @FXML

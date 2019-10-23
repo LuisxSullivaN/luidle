@@ -110,4 +110,16 @@ public class EditorModel {
     	}
     	return tableTokens;
 	}
+	
+	public List<TableToken> filterTableTokens(List<TableToken> tableTokens, Category category) {
+		List<TableToken> filteredTokens = new ArrayList<>();
+    	int id = 1;
+    	for (TableToken tableToken : tableTokens) {
+    		if (tableToken.getAlias() == category.getAlias()) {
+    			tableToken.setId(id++);
+    			filteredTokens.add(tableToken);
+    		}
+    	}
+    	return filteredTokens;
+	}
 }
