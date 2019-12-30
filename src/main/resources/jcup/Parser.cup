@@ -1,9 +1,11 @@
 package com.sullivan.parser;
 
 import java_cup.runtime.*;
+import java.util.List;
 
 parser code {:
     Scanner scanner;
+    ErrorType errorType;
 
     public parser(Scanner scanner) {
         this.scanner = scanner;
@@ -15,12 +17,14 @@ scan with{:
 :}
 
 terminal MAIN, VOID, ENDF, IF, ENDIF, ELSE, FOR, ENDFOR, READLN, PRINT, TRUE, FALSE;
-terminal LPAR, RPAR, COLON, COMMA, SEMICOLON, ASSIGN;
+terminal LPAR, RPAR, COLON, COMMA, SEMICOLON, ASSIGN, PIPE, DOT, DOUBLE_QUOTE, SINGLE_QUOTE,
+		 NEGATE, AMPERSAND, INV_DIAGONAL, DOLLAR, UNDERSCORE, HASH, AT, EXP, L_EXCL,
+		 		 OP_QMARK, CLOSE_QMARK, LBRACKET, RBRACKET, LBRACE, RBRACE;
 terminal INT, CHAR, BOOL, STRING, FLOAT;
 terminal IDENTIFIER;
 terminal PLUS, MINUS, DIVIDE, TIMES, MOD;
+terminal EQUAL, LOWER_THAN, GREATER_THAN, LOWER_EQ_THAN, GREATER_EQ_THAN;
 terminal AND, OR, NOT_EQUAL;
-terminal EQUAL, LOWER_THAN, GREATHER_THAN, LOWER_EQ_THAN, GREATER_EQ_THAN;
 terminal STRING_LITERAL, CHARACTER_LITERAL, INTEGER, REAL;
 
 non terminal main_method;
@@ -48,13 +52,15 @@ non terminal literal;
 
 precedence left PLUS, MINUS, TIMES, DIVIDE, MOD;
 precedence left AND, OR, NOT_EQUAL;
+precedence left EQUAL, LOWER_THAN, GREATER_THAN, LOWER_EQ_THAN, GREATER_EQ_THAN;
 precedence left LPAR, RPAR;
 
+start with main_method;
+
 main_method ::= MAIN LPAR RPAR VOID COLON statement_list ENDF SEMICOLON;
+statement_list ::= statement | statement_list statement;
 
-statement_list ::= statement statement_list | ;
-
-statement ::= declaration
+statement ::= declaration SEMICOLON
             | asignation
             | if_statement
             | for_statement
@@ -62,13 +68,15 @@ statement ::= declaration
             | output_statement
             ;
 
-declaration ::= data_type declaration_option SEMICOLON;
+
+declaration ::= data_type declaration_option
+			;
 
 declaration_option ::= IDENTIFIER
-                    | IDENTIFIER ASSIGN expression
-                    | IDENTIFIER COMMA declaration_option
-                    | IDENTIFIER ASSIGN expression COMMA declaration_option
-                    ;
+					| IDENTIFIER ASSIGN expression
+					| IDENTIFIER COMMA declaration_option
+					| IDENTIFIER ASSIGN expression COMMA declaration_option
+					;
 
 asignation ::= IDENTIFIER ASSIGN expression SEMICOLON;
 
@@ -79,6 +87,8 @@ if_statement ::= IF LPAR logic_expression RPAR COLON statement_list ENDIF SEMICO
 for_statement ::= FOR LPAR for_declaration SEMICOLON logic_expression SEMICOLON for_incremental LPAR COLON statement_list ENDFOR SEMICOLON;
 
 for_declaration ::= data_type IDENTIFIER ASSIGN expression;
+
+for_incremental ::= IDENTIFIER ASSIGN IDENTIFIER arit_operator arit_operand;
 
 input_statement ::= READLN LPAR IDENTIFIER RPAR SEMICOLON;
 
@@ -94,7 +104,6 @@ data_type ::= INT
             | CHAR
             | FLOAT
             ;
-
 expression ::= literal
             | arit_expression
             | logic_expression
@@ -127,16 +136,16 @@ arit_operator ::= PLUS
                 ;
 
 logic_expression ::= arit_operand rel_operator arit_operand
-                | logic_expression logic_operator logic_expression
                 | arit_operand rel_operator logic_expression
                 | logic_expression rel_operator arit_operand
                 | LPAR logic_expression RPAR
+                | logic_expression logic_operator logic_expression
                 ;
 
 rel_operator ::= EQUAL
             | LOWER_THAN
-            | LOWER_EQ_THAN
             | GREATER_THAN
+            | LOWER_EQ_THAN
             | GREATER_EQ_THAN
             ;
 
@@ -144,5 +153,3 @@ logic_operator ::= AND
                 | OR
                 | NOT_EQUAL
                 ;
-
-for_incremental ::= IDENTIFIER ASSIGN IDENTIFIER arit_operator arit_operand;

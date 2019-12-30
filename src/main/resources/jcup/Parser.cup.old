@@ -1,0 +1,104 @@
+package com.sullivan.parser;
+
+import java_cup.runtime.*;
+
+parser code {:
+    Scanner scanner;
+
+    public parser(Scanner scanner) {
+        this.scanner = scanner;
+    }
+:}
+
+scan with{:
+    return scanner.next_token();
+:}
+
+terminal IDENTIFIER, COMMA, ASSIGN, INTEGER, FLOAT, LPARENTHESES, RPARENTHESES, NEGATE, STRING_LITERAL,
+         CHARACTER_LITERAL, PLUS, MINUS, TIMES, DIVIDE, MOD, EQUAL, NOT_EQUAL, LOW_EQ_THAN, GREATER_EQ_THAN,
+         LOW_THAN, GREATER_THAN, AND, OR;
+
+non terminal printable, asignation, available_condition, available_math, num, operation, condition, operator, relational, logic;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE, MOD;
+precedence left LPARENTHESES, RPARENTHESES;
+precedence left IDENTIFIER;
+
+printable ::= num
+        | STRING_LITERAL
+        | CHARACTER_LITERAL
+        | operation
+        | IDENTIFIER
+        | num COMMA printable
+        | STRING_LITERAL COMMA printable
+        | CHARACTER_LITERAL COMMA printable
+        | operation COMMA printable
+        ;
+
+asignation ::= IDENTIFIER
+        | IDENTIFIER ASSIGN num
+        | IDENTIFIER ASSIGN STRING_LITERAL
+        | IDENTIFIER ASSIGN CHARACTER_LITERAL
+        | IDENTIFIER ASSIGN operation
+        | IDENTIFIER ASSIGN asignation
+        | IDENTIFIER ASSIGN num COMMA asignation
+        | IDENTIFIER ASSIGN STRING_LITERAL COMMA asignation
+        | IDENTIFIER ASSIGN CHARACTER_LITERAL COMMA asignation
+        | IDENTIFIER ASSIGN operation COMMA asignation
+        ;
+
+available_condition ::= num
+                    | IDENTIFIER
+                    | STRING_LITERAL
+                    | CHARACTER_LITERAL
+                    ;
+
+available_math ::= IDENTIFIER
+                | num
+                ;
+
+num ::= INTEGER 
+    | FLOAT;
+
+operation ::= available_math operator available_math
+            | available_math operator available_math operator available_math
+            | available_math operator available_math operation operation
+            | LPARENTHESES operation RPARENTHESES
+            | LPARENTHESES operation RPARENTHESES operator available_math
+            | LPARENTHESES operation RPARENTHESES operator available_math operator operation
+            | LPARENTHESES operation operator available_math RPARENTHESES
+            | LPARENTHESES operation operator operation RPARENTHESES
+            | LPARENTHESES operation RPARENTHESES operator operation
+            ;
+
+condition ::= available_condition relational available_condition
+            | available_condition relational available_condition relational available_condition
+            | available_condition relational available_condition logic condition
+            | NEGATE available_condition relational available_condition logic condition
+            | LPARENTHESES condition RPARENTHESES
+            | NEGATE LPARENTHESES condition RPARENTHESES
+            | LPARENTHESES condition RPARENTHESES relational condition
+            | LPARENTHESES condition RPARENTHESES logic condition
+            | NEGATE LPARENTHESES condition RPARENTHESES relational condition
+            | NEGATE LPARENTHESES condition RPARENTHESES logic condition
+            ;
+
+operator ::= PLUS
+        | MINUS
+        | TIMES
+        | DIVIDE
+        | MOD
+        ;
+
+relational ::= EQUAL
+            | NOT_EQUAL
+            | LOW_EQ_THAN
+            | GREATER_EQ_THAN
+            | LOW_THAN
+            | GREATER_THAN
+            ;
+
+logic ::= AND
+        | OR
+        ;

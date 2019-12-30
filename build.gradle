@@ -11,4 +11,5 @@ repositories {
 
 dependencies {
     implementation 'org.fxmisc.richtext:richtextfx:0.10.2'
+    implementation 'de.jflex:cup_runtime:11b'
 }

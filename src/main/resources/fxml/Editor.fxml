@@ -106,7 +106,7 @@
             <Menu mnemonicParsing="false" text="Analisis">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#doLexicalAnalysis" text="Lexico" />
-                  <MenuItem mnemonicParsing="false" text="Sintatico" />
+                  <MenuItem mnemonicParsing="false" onAction="#doSyntaxAnalysis" text="Sintatico" />
                   <MenuItem mnemonicParsing="false" text="Semantico" />
               </items>
             </Menu>

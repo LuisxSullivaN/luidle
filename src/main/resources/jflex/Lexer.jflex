@@ -29,7 +29,7 @@ import java.util.ArrayList;
     }
 %}
 
-Integer = [\+|-]?[0-9]
+Integer = [\+|-]?[0-9]+
 Float = {Integer}\.[0-9]*
 Identifier = [A-Za-z$_][A-Za-z$_0-9]*
 String = \"[^\n\r\"]*\"
@@ -53,6 +53,8 @@ Character = \'[^\n\r\"]?\'
 "main" {return token(Category.KEYWORD);}
 "void" {return token(Category.KEYWORD);}
 "endf" {return token(Category.KEYWORD);}
+"true" {return token(Category.KEYWORD);}
+"false" {return token(Category.KEYWORD);}
 
 "+"   {return token(Category.ARIT_OP);}
 "-"   {return token(Category.ARIT_OP);}
@@ -74,12 +76,10 @@ Character = \'[^\n\r\"]?\'
 "="   {return token(Category.SPECIAL_CHAR);}
 ";"   {return token(Category.SPECIAL_CHAR);}
 ","   {return token(Category.SPECIAL_CHAR);}
-"¬"   {return token(Category.SPECIAL_CHAR);}
 \\   {return token(Category.SPECIAL_CHAR);}
 "\."   {return token(Category.SPECIAL_CHAR);}
 "\$"   {return token(Category.SPECIAL_CHAR);}
 "_"   {return token(Category.SPECIAL_CHAR);}
-"-"   {return token(Category.SPECIAL_CHAR);}
 ":"   {return token(Category.SPECIAL_CHAR);}
 \"   {return token(Category.SPECIAL_CHAR);}
 \'   {return token(Category.SPECIAL_CHAR);}

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +15,11 @@ import com.sullivan.editor.table.ShortSymbolTableController;
 import com.sullivan.editor.table.TableToken;
 import com.sullivan.lexer.Category;
 import com.sullivan.lexer.Lexer;
+import com.sullivan.lexer.LexerCup;
 import com.sullivan.lexer.Token;
+import com.sullivan.parser.parser;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -169,6 +168,23 @@ public class EditorController {
     		for (Token error : lexer.getErrors()) {
     			console.appendText("Símbolo " + error.getLexeme()
     					+ " desconocido en la línea " + error.getLine() + "\n");
+    		}
+    	}
+    }
+    
+    @FXML
+    private void doSyntaxAnalysis() {
+    	if (codeArea.isVisible()) {
+    		code = codeArea.getText();
+    		console.clear();
+    		LexerCup scanner = new LexerCup(new StringReader(code));
+    		parser parser = new parser(scanner);
+    		try {
+    			parser.parse();
+    			console.setText("Análisis sintáctico finalizado con éxito");
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    			console.setText("Error en el análisis sintáctico");
     		}
     	}
     }
